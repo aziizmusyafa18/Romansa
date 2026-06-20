@@ -9,7 +9,11 @@ class Member extends Model
 {
     use HasFactory;
 
+    public $incrementing = false;
+    protected $keyType = 'string';
+
     protected $fillable = [
+        'id',
         'nama',
         'tahun_masuk',
         'lulus_madrasah',

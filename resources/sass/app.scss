@@ -1,5 +1,471 @@
 @import "variables";
 @import "bootstrap/scss/bootstrap";
 
+// Bootstrap Icons
+$bootstrap-icons-font-dir: "bootstrap-icons/font/fonts";
+@import "bootstrap-icons/font/bootstrap-icons";
+
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Nunito:wght@400;600;700&display=swap');
+
+// =====================================================
+//  Global
+// =====================================================
+body {
+    background-color: $slate-100;
+    color: $slate-700;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+a { text-decoration: none; }
+
+// Scrollbar halus
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: $slate-100; }
+::-webkit-scrollbar-thumb {
+    background: $slate-300;
+    border-radius: 10px;
+    border: 2px solid $slate-100;
+}
+::-webkit-scrollbar-thumb:hover { background: $slate-400; }
+
+// Card global
+.card {
+    border: 1px solid $slate-200;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, .04), 0 1px 2px rgba(15, 23, 42, .06);
+}
+
+// =====================================================
+//  Auth (Login) — full screen
+// =====================================================
+.auth-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(56, 189, 248, .12), transparent 35%),
+        radial-gradient(circle at 85% 80%, rgba(148, 163, 184, .12), transparent 35%),
+        linear-gradient(135deg, $slate-900 0%, $slate-800 55%, $slate-700 100%);
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 430px;
+    background: #ffffff;
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, .08);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, .45);
+    overflow: hidden;
+}
+
+.auth-brand {
+    text-align: center;
+    color: #fff;
+    margin-bottom: 2rem;
+
+    .auth-logo {
+        width: 72px; height: 72px;
+        display: inline-flex; align-items: center; justify-content: center;
+        margin-bottom: 1rem;
+
+        img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    }
+    h1 { font-size: 1.5rem; font-weight: 800; letter-spacing: .5px; margin: 0; }
+    p  { color: $slate-400; font-size: .9rem; margin: .35rem 0 0; }
+}
+
+// =====================================================
+//  Admin Layout — sidebar + topbar
+// =====================================================
+.admin-body { background: $slate-100; }
+
+.admin-sidebar {
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    width: 260px;
+    background: linear-gradient(180deg, $slate-900, $slate-800);
+    color: $slate-300;
+    z-index: 1040;
+    display: flex;
+    flex-direction: column;
+    transition: transform .25s ease, width .25s ease;
+    overflow-x: hidden;
+
+    .sidebar-brand {
+        display: flex; align-items: center; gap: .75rem;
+        padding: 1.4rem 1.5rem;
+        color: #fff; font-weight: 800; font-size: 1.2rem;
+        border-bottom: 1px solid rgba(255, 255, 255, .06);
+
+        .brand-mark {
+            width: 40px; height: 40px;
+            display: inline-flex; align-items: center; justify-content: center;
+            font-weight: 800; color: #fff;
+
+            img { width: 100%; height: 100%; object-fit: contain; display: block; }
+        }
+    }
+
+    .sidebar-nav {
+        padding: 1rem .85rem;
+        flex: 1;
+        overflow-y: auto;
+
+        // Sembunyikan scrollbar (tetap bisa scroll)
+        scrollbar-width: none;          // Firefox
+        -ms-overflow-style: none;       // IE/Edge lama
+        &::-webkit-scrollbar { width: 0; height: 0; display: none; } // Chrome/Safari
+
+        .nav-label {
+            font-size: .72rem; text-transform: uppercase; letter-spacing: 1px;
+            color: $slate-500; padding: .5rem .75rem; margin-top: .5rem;
+        }
+
+        .nav-link {
+            display: flex; align-items: center; gap: .8rem;
+            color: $slate-300;
+            padding: .7rem .85rem;
+            border-radius: .55rem;
+            font-weight: 500;
+            margin-bottom: .15rem;
+            transition: all .15s ease;
+
+            i { font-size: 1.1rem; width: 1.4rem; text-align: center; }
+
+            &:hover { background: rgba(255, 255, 255, .06); color: #fff; }
+            &.active {
+                background: linear-gradient(135deg, rgba(56, 189, 248, .18), rgba(14, 165, 233, .12));
+                color: #fff;
+                box-shadow: inset 3px 0 0 $accent;
+            }
+        }
+    }
+
+    .sidebar-footer {
+        padding: 1rem 1.25rem;
+        border-top: 1px solid rgba(255, 255, 255, .06);
+        font-size: .8rem; color: $slate-500;
+    }
+}
+
+.admin-main {
+    margin-left: 260px;
+    min-height: 100vh;
+    transition: margin .25s ease;
+}
+
+.admin-topbar {
+    height: 66px;
+    background: #fff;
+    border-bottom: 1px solid $slate-200;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 1.5rem;
+    position: sticky; top: 0; z-index: 1030;
+
+    .topbar-title { font-weight: 700; color: $slate-800; font-size: 1.05rem; }
+
+    .topbar-user {
+        display: flex; align-items: center; gap: .75rem;
+        .avatar {
+            width: 38px; height: 38px; border-radius: 50%;
+            background: linear-gradient(135deg, $slate-600, $slate-800);
+            color: #fff; display: inline-flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: .9rem;
+        }
+        .user-meta { line-height: 1.2; text-align: right;
+            .u-name { font-weight: 600; color: $slate-800; font-size: .9rem; }
+            .u-role { font-size: .75rem; color: $slate-500; }
+        }
+    }
+}
+
+.admin-content { padding: 1.75rem 1.5rem; }
+
+// Tombol toggle sidebar di topbar
+.sidebar-toggle {
+    width: 40px; height: 40px; border-radius: 10px;
+    border: 1px solid $slate-200; background: $slate-50;
+    color: $slate-600; font-size: 1.25rem;
+    display: inline-flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all .15s ease;
+
+    &:hover { background: $slate-100; color: $slate-800; border-color: $slate-300; }
+}
+
+// Sidebar toggle (mobile)
+.sidebar-backdrop {
+    position: fixed; inset: 0; background: rgba(15, 23, 42, .5);
+    z-index: 1035; display: none;
+}
+
+// =====================================================
+//  Sidebar Collapsed (Rail) — desktop, hanya ikon
+// =====================================================
+$rail-width: 78px;
+
+.sidebar-collapsed {
+    .admin-sidebar { width: $rail-width; }
+    .admin-main { margin-left: $rail-width; }
+
+    // Sembunyikan teks
+    .sidebar-brand {
+        justify-content: center;
+        padding-left: 0; padding-right: 0;
+        .brand-text { display: none; }
+    }
+    .sidebar-nav {
+        padding-left: .6rem; padding-right: .6rem;
+        .nav-label { text-align: center; padding-left: 0; padding-right: 0; font-size: 0;
+            &::after { content: '•••'; font-size: .7rem; letter-spacing: 1px; }
+        }
+        .nav-link {
+            justify-content: center;
+            gap: 0;
+            padding-left: 0; padding-right: 0;
+            position: relative;
+
+            .nav-text { display: none; }
+            i { width: auto; font-size: 1.25rem; }
+
+            // Tooltip saat hover
+            &::after {
+                content: attr(data-title);
+                position: absolute; left: calc(100% + 12px); top: 50%;
+                transform: translateY(-50%);
+                background: $slate-900; color: #fff;
+                padding: .4rem .7rem; border-radius: .5rem;
+                font-size: .8rem; font-weight: 600; white-space: nowrap;
+                opacity: 0; visibility: hidden; pointer-events: none;
+                box-shadow: 0 6px 18px rgba(0, 0, 0, .35);
+                transition: opacity .15s ease;
+                z-index: 1050;
+            }
+            &:hover::after { opacity: 1; visibility: visible; }
+        }
+    }
+    .sidebar-footer {
+        text-align: center; padding-left: 0; padding-right: 0;
+        .footer-full { display: none; }
+        .footer-mini { display: inline; }
+    }
+}
+
+// Footer mini disembunyikan saat sidebar penuh
+.sidebar-footer .footer-mini { display: none; }
+
+@media (max-width: 991.98px) {
+    .admin-sidebar { transform: translateX(-100%); }
+    .admin-sidebar.show { transform: translateX(0); }
+    .admin-main { margin-left: 0; }
+    .sidebar-backdrop.show { display: block; }
+
+    // Di mobile, abaikan mode rail — sidebar tetap lebar penuh saat dibuka
+    .sidebar-collapsed {
+        .admin-sidebar { width: 260px; }
+        .admin-main { margin-left: 0; }
+        .sidebar-brand { justify-content: flex-start; padding: 1.4rem 1.5rem; .brand-text { display: inline; } }
+        .sidebar-nav {
+            padding: 1rem .85rem;
+            .nav-label { font-size: .72rem; text-align: left; &::after { content: none; } }
+            .nav-link { justify-content: flex-start; gap: .8rem; padding: .7rem .85rem;
+                .nav-text { display: inline; } i { width: 1.4rem; }
+                &::after { content: none; }
+            }
+        }
+        .sidebar-footer { text-align: left; padding: 1rem 1.25rem;
+            .footer-full { display: inline; } .footer-mini { display: none; }
+        }
+    }
+}
+
+// =====================================================
+//  Stat Cards
+// =====================================================
+.stat-card {
+    background: #fff;
+    border: 1px solid $slate-200;
+    border-radius: $border-radius-lg;
+    padding: 1.35rem 1.5rem;
+    display: flex; align-items: center; gap: 1.1rem;
+    transition: transform .15s ease, box-shadow .15s ease;
+
+    &:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(15, 23, 42, .08); }
+
+    .stat-icon {
+        width: 54px; height: 54px; border-radius: 14px; flex-shrink: 0;
+        display: inline-flex; align-items: center; justify-content: center;
+        font-size: 1.5rem; color: #fff;
+    }
+    .stat-icon.bg-slate { background: linear-gradient(135deg, $slate-600, $slate-800); }
+    .stat-icon.bg-sky   { background: linear-gradient(135deg, $accent, $accent-dark); }
+    .stat-icon.bg-green { background: linear-gradient(135deg, #22c55e, #16a34a); }
+    .stat-icon.bg-amber { background: linear-gradient(135deg, #fbbf24, #f59e0b); }
+
+    .stat-label { font-size: .78rem; text-transform: uppercase; letter-spacing: .6px; color: $slate-500; font-weight: 600; }
+    .stat-value { font-size: 1.7rem; font-weight: 800; color: $slate-800; line-height: 1; margin-top: .25rem; }
+}
+
+// =====================================================
+//  Tables
+// =====================================================
+.table {
+    thead th {
+        font-size: .76rem; text-transform: uppercase; letter-spacing: .5px;
+        font-weight: 700; color: $slate-500;
+        background: $slate-50;
+        border-bottom: 1px solid $slate-200;
+        padding-top: .85rem; padding-bottom: .85rem;
+    }
+    tbody td { vertical-align: middle; color: $slate-700; }
+    tbody tr:hover { background: $slate-50; }
+}
+
+// Buttons
+.btn { font-weight: 600; }
+.btn-primary {
+    background: linear-gradient(135deg, $slate-700, $slate-800);
+    border-color: $slate-700;
+    &:hover, &:focus { background: linear-gradient(135deg, $slate-800, $slate-900); border-color: $slate-800; }
+}
+.btn-accent {
+    background: linear-gradient(135deg, $accent, $accent-dark);
+    border-color: $accent-dark; color: #fff;
+    &:hover { background: linear-gradient(135deg, $accent-dark, #0284c7); color: #fff; }
+}
+
+// =====================================================
+//  Public / Landing Page
+// =====================================================
+.public-body { background: #fff; }
+
+.brand-mark {
+    width: 38px; height: 38px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-weight: 800; color: #fff; font-size: 1.05rem;
+
+    img { width: 100%; height: 100%; object-fit: contain; display: block; }
+}
+
+.public-navbar {
+    background: rgba(15, 23, 42, .85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, .06);
+    padding-top: .85rem; padding-bottom: .85rem;
+    transition: background .25s ease;
+
+    .navbar-brand { color: #fff; }
+    .nav-link {
+        color: $slate-300; font-weight: 500; padding: .5rem .9rem; border-radius: .5rem;
+        &:hover { color: #fff; }
+    }
+    .navbar-toggler { border-color: rgba(255, 255, 255, .2); }
+    .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255,255,255,0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+}
+
+// Hero
+.hero {
+    position: relative;
+    padding: 9rem 0 6rem;
+    color: #fff;
+    background:
+        radial-gradient(circle at 20% 15%, rgba(56, 189, 248, .15), transparent 40%),
+        radial-gradient(circle at 80% 85%, rgba(148, 163, 184, .12), transparent 40%),
+        linear-gradient(135deg, $slate-900 0%, $slate-800 60%, $slate-700 100%);
+    overflow: hidden;
+
+    .hero-badge {
+        display: inline-flex; align-items: center; gap: .5rem;
+        background: rgba(56, 189, 248, .12);
+        border: 1px solid rgba(56, 189, 248, .3);
+        color: $accent;
+        padding: .4rem 1rem; border-radius: 50rem;
+        font-size: .82rem; font-weight: 600; margin-bottom: 1.5rem;
+    }
+    h1 {
+        font-weight: 800; font-size: clamp(2.1rem, 4vw, 3.2rem);
+        line-height: 1.15; margin-bottom: 1.25rem;
+        .accent-text { color: $accent; }
+    }
+    .lead { color: $slate-300; font-size: 1.1rem; max-width: 560px; }
+
+    .hero-visual {
+        background: rgba(255, 255, 255, .04);
+        border: 1px solid rgba(255, 255, 255, .1);
+        border-radius: 1.25rem;
+        padding: 1rem;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, .4);
+    }
+    .hero-visual img { border-radius: .85rem; width: 100%; display: block; }
+}
+
+// Stats strip
+.stats-strip {
+    background: $slate-900;
+    color: #fff;
+    padding: 2.5rem 0;
+    border-top: 1px solid rgba(255, 255, 255, .06);
+
+    .stat-num { font-size: 2.2rem; font-weight: 800; color: $accent; line-height: 1; }
+    .stat-cap { color: $slate-400; font-size: .9rem; margin-top: .35rem; }
+}
+
+// Features
+.features-section { padding: 6rem 0; background: $slate-50; }
+
+.feature-card {
+    background: #fff;
+    border: 1px solid $slate-200;
+    border-radius: 1rem;
+    padding: 2rem 1.75rem;
+    height: 100%;
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(15, 23, 42, .1);
+        border-color: $slate-300;
+    }
+
+    .feature-ico {
+        width: 60px; height: 60px; border-radius: 16px;
+        display: inline-flex; align-items: center; justify-content: center;
+        font-size: 1.7rem; color: #fff; margin-bottom: 1.25rem;
+        background: linear-gradient(135deg, $slate-700, $slate-900);
+    }
+    &:nth-child(2) .feature-ico { background: linear-gradient(135deg, $accent, $accent-dark); }
+    &:nth-child(3) .feature-ico { background: linear-gradient(135deg, #22c55e, #16a34a); }
+
+    h3 { font-size: 1.15rem; font-weight: 700; color: $slate-800; margin-bottom: .6rem; }
+    p  { color: $slate-500; margin: 0; font-size: .94rem; }
+}
+
+// CTA
+.cta-section {
+    padding: 5rem 0;
+    background: linear-gradient(135deg, $slate-800, $slate-900);
+    color: #fff;
+    text-align: center;
+
+    h2 { font-weight: 800; font-size: clamp(1.6rem, 3vw, 2.4rem); margin-bottom: 1rem; }
+    p  { color: $slate-300; max-width: 520px; margin: 0 auto 2rem; }
+}
+
+// Footer
+.public-footer {
+    background: $slate-900;
+    color: $slate-400;
+    padding: 3rem 0;
+    border-top: 1px solid rgba(255, 255, 255, .06);
+}
+
+// Section heading helper
+.section-eyebrow {
+    color: $accent-dark; font-weight: 700; font-size: .8rem;
+    text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: .75rem;
+}
+.section-title { font-weight: 800; color: $slate-800; font-size: clamp(1.7rem, 3vw, 2.3rem); }

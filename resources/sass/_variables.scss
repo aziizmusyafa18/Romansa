@@ -1,12 +1,61 @@
-// Body
-$body-bg: #f8fafc;
+// =====================================================
+//  ROMANSA — Tema Profesional (Base: Abu-abu Tua / Slate)
+// =====================================================
 
 // Typography
-$font-family-sans-serif: 'Nunito', sans-serif;
-$font-size-base: 0.9rem;
+$font-family-sans-serif: 'Inter', 'Nunito', system-ui, -apple-system, "Segoe UI", sans-serif;
+$font-size-base: 0.925rem;
 $line-height-base: 1.6;
 
-// Colors
+// ---- Palet Slate / Charcoal ----
+$slate-900: #0f172a; // paling gelap (sidebar / bg auth)
+$slate-800: #1e293b;
+$slate-700: #334155;
+$slate-600: #475569;
+$slate-500: #64748b;
+$slate-400: #94a3b8;
+$slate-300: #cbd5e1;
+$slate-200: #e2e8f0;
+$slate-100: #f1f5f9;
+$slate-50:  #f8fafc;
+
+// ---- Aksen ----
+$accent:      #38bdf8; // sky-400, aksen dingin yang kontras di atas slate
+$accent-dark: #0ea5e9;
+
+// ---- Pemetaan ke variabel Bootstrap ----
+$body-bg:   $slate-100;
+$body-color: $slate-700;
+
+$primary:   $slate-700;
+$secondary: $slate-500;
+$success:   #16a34a;
+$info:      #0ea5e9;
+$warning:   #f59e0b;
+$danger:    #dc2626;
+$light:     $slate-100;
+$dark:      $slate-900;
+
+// Komponen
+$border-radius:    .55rem;
+$border-radius-sm: .4rem;
+$border-radius-lg: .85rem;
+
+$body-secondary-color: $slate-500;
+$border-color: $slate-200;
+
+// Card
+$card-border-color: $slate-200;
+$card-cap-bg: #ffffff;
+$card-border-radius: $border-radius-lg;
+
+// Form controls
+$input-border-color: $slate-300;
+$input-focus-border-color: $accent;
+$input-focus-box-shadow: 0 0 0 .2rem rgba(56, 189, 248, .25);
+$input-btn-focus-box-shadow: 0 0 0 .2rem rgba(56, 189, 248, .25);
+
+// Legacy colors (dipertahankan agar tidak break)
 $blue: #3490dc;
 $indigo: #6574cd;
 $purple: #9561e2;

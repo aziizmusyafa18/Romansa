@@ -14,7 +14,8 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    
+    Route::get('/members', [MemberController::class, 'page'])->name('members.page');
+
     // API Routes for Members
     Route::get('/api/members', [MemberController::class, 'index']);
     Route::post('/api/members', [MemberController::class, 'store']);

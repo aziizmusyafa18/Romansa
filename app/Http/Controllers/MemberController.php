@@ -8,6 +8,14 @@ use Illuminate\Http\Request;
 class MemberController extends Controller
 {
     /**
+     * Show the member management page.
+     */
+    public function page()
+    {
+        return view('members');
+    }
+
+    /**
      * Display a listing of the resource.
      */
     public function index()
@@ -21,6 +29,7 @@ class MemberController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'id' => 'nullable|string|max:255|unique:members',
             'nama' => 'required|string|max:255',
             'tahun_masuk' => 'required|numeric|digits:4',
             'lulus_madrasah' => 'nullable|numeric|digits:4',
@@ -29,6 +38,15 @@ class MemberController extends Controller
             'job' => 'nullable|string|max:255',
             'alamat_lengkap' => 'nullable|string',
         ]);
+
+        if (empty($validated['id'])) {
+            $maxId = Member::select('id')->get()->filter(function ($m) {
+                return is_numeric($m->id);
+            })->max(function ($m) {
+                return (int) $m->id;
+            });
+            $validated['id'] = (string) (($maxId ?? 0) + 1);
+        }
 
         $member = Member::create($validated);
 
@@ -52,6 +70,7 @@ class MemberController extends Controller
     public function update(Request $request, Member $member)
     {
         $validated = $request->validate([
+            'id' => 'required|string|max:255|unique:members,id,' . $member->id . ',id',
             'nama' => 'required|string|max:255',
             'tahun_masuk' => 'required|numeric|digits:4',
             'lulus_madrasah' => 'nullable|numeric|digits:4',
